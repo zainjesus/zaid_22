@@ -27,7 +27,7 @@ class Review(models.Model):
         (3, '3'),
         (4, '4'),
         (5, '5')
-    ), max_length=5)
+    ))
 
     def __str__(self):
         return f'{self.movie}{self.text}'
