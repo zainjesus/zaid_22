@@ -54,8 +54,8 @@ class MovieReviewSerializer(serializers.ModelSerializer):
         return movie.director.name if movie.director else None
 
     def get_average_rate(self, movie):
-        lst = [review.stars for review in movie.reviews.all()]
-        return sum(lst) / len(lst) if lst else None
+        all_stars = [review.stars for review in movie.reviews.all()]
+        return sum(all_stars) / len(all_stars) if all_stars else None
 
 
 

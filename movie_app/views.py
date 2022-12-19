@@ -80,9 +80,9 @@ def review_detail_view(request, **kwargs):
 @api_view(['GET'])
 def movies_reviews_view(request):
     if request.method == 'GET':
-        movie = Movie.objects.all()
+        movies = Movie.objects.all()
 
-        serializer = MovieReviewSerializer(movie, many=True)
+        serializer = MovieReviewSerializer(movies, many=True)
 
         return Response(data=serializer.data)
 
