@@ -10,7 +10,7 @@ class DirectorSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'movies_count')
 
     def get_movies_count(self, director):
-        return director.movies.all().count() if director.movies else None
+        return director.movies.all().count()
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'duration', 'director')
 
     def get_director(self, movie):
-        return movie.director.name if movie.director else None
+        return movie.director.name
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'stars', 'movie')
 
     def get_movie(self, review):
-        return review.movie.title if review.movie else None
+        return review.movie.title
 
 
 class ReviewsSerializer(serializers.ModelSerializer):
@@ -51,7 +51,7 @@ class MovieReviewSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'duration', 'director', 'reviews', 'average_rate')
 
     def get_director(self, movie):
-        return movie.director.name if movie.director else None
+        return movie.director.name
 
     def get_average_rate(self, movie):
         all_stars = [review.stars for review in movie.reviews.all()]
