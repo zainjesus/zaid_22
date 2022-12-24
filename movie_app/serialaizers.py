@@ -44,16 +44,16 @@ class ReviewsSerializer(serializers.ModelSerializer):
 class MovieReviewSerializer(serializers.ModelSerializer):
     director = serializers.SerializerMethodField()
     reviews = ReviewsSerializer(many=True)
-    average_rate = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'description', 'duration', 'director', 'reviews', 'average_rate')
+        fields = ('id', 'title', 'description', 'duration', 'director', 'reviews', 'rating')
 
     def get_director(self, movie):
         return movie.director.name
 
-    def get_average_rate(self, movie):
+    def get_rating(self, movie):
         all_stars = [review.stars for review in movie.reviews.all()]
         return sum(all_stars) / len(all_stars) if all_stars else None
 
