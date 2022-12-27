@@ -84,8 +84,8 @@ class ReviewValidateSerializer(serializers.Serializer):
 
     def validate_movie(self, movie):
         try:
-            Director.objects.get(id=movie)
-        except Director.DoesNotExist:
+            Movie.objects.get(id=movie)
+        except Movie.DoesNotExist:
             raise ValidationError('Movie not found')
         return movie
 
