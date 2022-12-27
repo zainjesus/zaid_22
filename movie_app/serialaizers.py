@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from movie_app.models import Director, Movie, Review
+from rest_framework.exceptions import ValidationError
 
 
 class DirectorSerializer(serializers.ModelSerializer):
@@ -58,7 +59,35 @@ class MovieReviewSerializer(serializers.ModelSerializer):
         return sum(all_stars) / len(all_stars) if all_stars else None
 
 
+class DirectorValidateSerializer(serializers.Serializer):
+    name = serializers.CharField(min_length=2, max_length=20)
 
+
+class MovieValidateSerializer(serializers.Serializer):
+    title = serializers.CharField(min_length=3, max_length=20)
+    description = serializers.CharField(min_length=10)
+    duration = serializers.IntegerField(min_value=30)
+    director = serializers.IntegerField(min_value=1)
+
+    def validate_director(self, director):
+        try:
+            Director.objects.get(id=director)
+        except Director.DoesNotExist:
+            raise ValidationError('Director not found')
+        return director
+
+
+class ReviewValidateSerializer(serializers.Serializer):
+    text = serializers.CharField(min_length=3, max_length=255)
+    movie = serializers.IntegerField(min_value=1)
+    stars = serializers.IntegerField(min_value=1, max_value=5)
+
+    def validate_movie(self, movie):
+        try:
+            Director.objects.get(id=movie)
+        except Director.DoesNotExist:
+            raise ValidationError('Movie not found')
+        return movie
 
 
 
