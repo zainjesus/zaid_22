@@ -60,11 +60,11 @@ class MovieReviewSerializer(serializers.ModelSerializer):
 
 
 class DirectorValidateSerializer(serializers.Serializer):
-    name = serializers.CharField(min_length=2, max_length=20)
+    name = serializers.CharField(min_length=2, max_length=100)
 
 
 class MovieValidateSerializer(serializers.Serializer):
-    title = serializers.CharField(min_length=3, max_length=20)
+    title = serializers.CharField(min_length=3, max_length=100)
     description = serializers.CharField(min_length=10)
     duration = serializers.IntegerField(min_value=30)
     director = serializers.IntegerField(min_value=1)
