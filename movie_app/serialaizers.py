@@ -66,7 +66,7 @@ class DirectorValidateSerializer(serializers.Serializer):
 class MovieValidateSerializer(serializers.Serializer):
     title = serializers.CharField(min_length=3, max_length=100)
     description = serializers.CharField(min_length=10)
-    duration = serializers.IntegerField(min_value=30)
+    duration = serializers.IntegerField(min_value=1)
     director = serializers.IntegerField(min_value=1)
 
     def validate_director(self, director):
