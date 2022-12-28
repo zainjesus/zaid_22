@@ -63,6 +63,20 @@ class DirectorValidateSerializer(serializers.Serializer):
     name = serializers.CharField(min_length=2, max_length=100)
 
 
+class DirectorCreateSerializer(DirectorValidateSerializer):
+    def validate_name(self, name):
+        if Director.objects.filter(name=name).count() > 0:
+            raise ValidationError('Name must be unique')
+        return name
+
+
+class DirectorUpdateSerializer(DirectorValidateSerializer):
+    def validate_name(self, name):
+        if Director.objects.filter(name=name).exclude(id=self.context.get('id')).count() > 0:
+            raise ValidationError('Name must be unique')
+        return name
+
+
 class MovieValidateSerializer(serializers.Serializer):
     title = serializers.CharField(min_length=3, max_length=100)
     description = serializers.CharField(min_length=10)
@@ -75,6 +89,20 @@ class MovieValidateSerializer(serializers.Serializer):
         except Director.DoesNotExist:
             raise ValidationError('Director not found')
         return director
+
+
+class MovieCreateSerializer(MovieValidateSerializer):
+    def validate_title(self, title):
+        if Movie.objects.filter(title=title).count() > 0:
+            raise ValidationError('Title must be unique')
+        return title
+
+
+class MovieUpdateSerializer(MovieValidateSerializer):
+    def validate_title(self, title):
+        if Movie.objects.filter(title=title).exclude(id=self.context.get('id')).count() > 0:
+            raise ValidationError('Title must be unique')
+        return title
 
 
 class ReviewValidateSerializer(serializers.Serializer):

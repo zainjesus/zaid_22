@@ -2,7 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from movie_app.models import Movie, Review, Director
 from movie_app.serialaizers import MovieSerializer, ReviewSerializer, DirectorSerializer, MovieReviewSerializer
-from movie_app.serialaizers import DirectorValidateSerializer, MovieValidateSerializer, ReviewValidateSerializer
+from movie_app.serialaizers import DirectorCreateSerializer, DirectorUpdateSerializer
+from movie_app.serialaizers import MovieCreateSerializer, MovieUpdateSerializer, ReviewValidateSerializer
 from rest_framework import status
 
 
@@ -16,7 +17,7 @@ def director_view(request):
         return Response(data=serializer.data)
 
     elif request.method == 'POST':
-        serializer = DirectorValidateSerializer(data=request.data)
+        serializer = DirectorCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         name = serializer.validated_data.get('name')
@@ -49,7 +50,8 @@ def director_detail_view(request, **kwargs):
                         data={'message': 'Data deleted!'})
 
     else:
-        serializer = DirectorValidateSerializer(data=request.data)
+        serializer = DirectorUpdateSerializer(data=request.data,
+                                              context={'id': director.id})
         serializer.is_valid(raise_exception=True)
 
         director.name = serializer.validated_data.get('name')
@@ -70,7 +72,7 @@ def movie_view(request):
         return Response(data=serializer.data)
 
     elif request.method == 'POST':
-        serializer = MovieValidateSerializer(data=request.data)
+        serializer = MovieCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         title = serializer.validated_data.get('title')
@@ -106,7 +108,8 @@ def movie_detail_view(request, **kwargs):
                         data={'message': 'Data deleted!'})
 
     else:
-        serializer = MovieValidateSerializer(data=request.data)
+        serializer = MovieUpdateSerializer(data=request.data,
+                                           context={'id': movie.id})
         serializer.is_valid(raise_exception=True)
 
         movie.title = serializer.validated_data.get('title')
