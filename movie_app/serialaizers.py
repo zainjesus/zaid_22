@@ -15,24 +15,24 @@ class DirectorSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    director = serializers.SerializerMethodField()
+    director_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'description', 'duration', 'director')
+        fields = ('id', 'title', 'description', 'duration', 'director', 'director_name')
 
-    def get_director(self, movie):
+    def get_director_name(self, movie):
         return movie.director.name
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    movie = serializers.SerializerMethodField()
+    movie_title = serializers.SerializerMethodField()
 
     class Meta:
         model = Review
-        fields = ('id', 'text', 'stars', 'movie')
+        fields = ('id', 'text', 'stars', 'movie', 'movie_title')
 
-    def get_movie(self, review):
+    def get_movie_title(self, review):
         return review.movie.title
 
 
